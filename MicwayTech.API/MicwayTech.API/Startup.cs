@@ -6,6 +6,8 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using MicwayTech.DAL;
 using MicwayTech.Data;
+using Swashbuckle.AspNetCore.Swagger;
+using System.Threading.Tasks;
 
 namespace MicwayTech.API
 {
@@ -36,6 +38,12 @@ namespace MicwayTech.API
             //{
             //    options.SuppressModelStateInvalidFilter = true;
             //});
+
+            //Enabling Swagger 
+            services.AddSwaggerGen(c =>
+            {
+                c.SwaggerDoc("v1", new Info { Title = "My API", Version = "v1" });
+            });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -52,6 +60,15 @@ namespace MicwayTech.API
 
             app.UseHttpsRedirection();
             app.UseMvc();
+
+            app.UseSwagger(c => { c.PreSerializeFilters.Add((swagger, httpReq) => swagger.Host = httpReq.Host.Value); });
+            app.UseSwaggerUI(c =>
+            {
+                c.RoutePrefix = "swagger";
+                c.SwaggerEndpoint("/swagger/v1/swagger.json", "My API V1");
+            });
+            app.Run(async (context) => await Task.Run(() => context.Response.Redirect("/swagger")));
+
         }
     }
 }

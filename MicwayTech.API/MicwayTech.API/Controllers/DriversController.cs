@@ -1,12 +1,12 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
-using Micway_Tech_Test.DAL;
-using Micway_Tech_Test.Model;
+using MicwayTech.DAL;
+using MicwayTech.Domain;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
-namespace Micway_Tech_Test.Controllers
+namespace MicwayTech.Controllers
 {
     /// <summary>
     /// Web Api Controller 
@@ -41,7 +41,7 @@ namespace Micway_Tech_Test.Controllers
         /// <returns>List of Drivers</returns>
         [HttpGet]
         [Route("List")]
-        public async Task<ActionResult<IEnumerable<Driver>>> GetAll()
+        public async Task<ActionResult<IEnumerable<Driver>>> List()
         {
             IEnumerable<Driver> drivers;
             try
@@ -63,8 +63,8 @@ namespace Micway_Tech_Test.Controllers
         /// </summary>
         /// <param name="id">Driver's Id</param>
         /// <returns>Driver's details</returns>
-        [HttpGet("{id}")]
-        [Route("{id}/Details")]
+        [HttpGet("{id}/Details")]
+        //[Route("{id}/Details")] swagger fix
         public async Task<ActionResult<Driver>> Get(string id)
         {
             Driver driver;
@@ -125,8 +125,8 @@ namespace Micway_Tech_Test.Controllers
         /// <param name="id">Driver's Id</param>
         /// <param name="value">Driver's new details</param>
         /// <returns>Http code 204 No Content</returns>
-        [HttpPut("{id}")]
-        [Route("{id}/Update")]
+        [HttpPut("{id}/Update")]
+        //[Route("{id}/Update")] swagger fix
         public async Task<ActionResult> Put(string id, [FromBody] Driver value)
         {
             bool result;
@@ -160,8 +160,8 @@ namespace Micway_Tech_Test.Controllers
         /// </summary>
         /// <param name="id">Driver's Id</param>
         /// <returns>Http code 204 No Content</returns>
-        [HttpDelete("{id}")]
-        [Route("{id}/Delete")]
+        [HttpDelete("{id}/Delete")]
+        //[Route("{id}/Delete")] swagger fix
         public async Task<ActionResult> Delete(string id)
         {
             bool result;
