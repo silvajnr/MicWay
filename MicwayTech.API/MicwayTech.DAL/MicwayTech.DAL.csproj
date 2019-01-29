@@ -4,4 +4,9 @@
     <TargetFramework>netstandard2.0</TargetFramework>
   </PropertyGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\MicwayTech.Data\MicwayTech.Data.csproj" />
+    <ProjectReference Include="..\MicwayTech.Domain\MicwayTech.Domain.csproj" />
+  </ItemGroup>
+
 </Project>
