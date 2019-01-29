@@ -1,15 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Builder;
+﻿using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Logging;
-using Microsoft.Extensions.Options;
+using MicwayTech.DAL;
+using MicwayTech.Data;
 
 namespace MicwayTech.API
 {
@@ -26,6 +22,20 @@ namespace MicwayTech.API
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
+            //Injecting IdriverDataStore for IOC
+            services.AddTransient<IDriverDataStore, DriverDataStore>();
+
+            //Normally Connection strings are inside appsettings or vault because it's a local file DB i decided to insert here
+            var connection = @"Server=(localdb)\mssqllocaldb;Integrated Security=SSPI;Initial Catalog=Micway.NewDb;Trusted_Connection=True;ConnectRetryCount=0;MultipleActiveResultSets=true";
+            //EF Core initialization
+            services.AddDbContext<ApplicationDbContext>
+                (options => options.UseSqlServer(connection));
+
+            ////Removes Model States Validator
+            //services.Configure<ApiBehaviorOptions>(options =>
+            //{
+            //    options.SuppressModelStateInvalidFilter = true;
+            //});
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
